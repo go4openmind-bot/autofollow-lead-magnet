@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AutoFollow, enquiry and renewal tracker for water dealers in Bengaluru</title>
+<meta name="description" content="AutoFollow is a small enquiry and renewal tracker for water conditioner and softener dealers and service teams in Bengaluru. The follow-ups run on their own.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Colours, named, so nothing is guessed:
+     Warm Cream  #F7F3EC  page background
+     Ink Navy    #1A2A3A  body text, footer band
+     Deep Teal   #0F6B6B  accent only: buttons, one headline phrase, thin rules, icons
+     Soft Slate  #5A6B7A  small labels and quiet lines, secondary button border
+     Card Cream  #FFFCF6  card and panel background
+     Hairline    #E2DACD  card borders and thin rules
+     On Teal     #F7F3EC  text sitting on a Deep Teal button
+  */
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: #F7F3EC;
+    color: #1A2A3A;
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  img { max-width: 100%; display: block; }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  p { margin: 0 0 1em; max-width: 68ch; }
+  p:last-child { margin-bottom: 0; }
+
+  a { color: #0F6B6B; }
+
+  .wrap { width: min(1100px, 100% - 48px); margin-inline: auto; }
+
+  .section { padding: 96px 0; }
+
+  .label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #5A6B7A;
+    margin: 0 0 14px;
+  }
+
+  .h2 { font-size: clamp(1.9rem, 4.2vw, 2.9rem); }
+  .lede { font-size: 1.12rem; color: #1A2A3A; margin-top: 18px; }
+  .quiet { color: #5A6B7A; }
+
+  .rule {
+    height: 2px;
+    width: 56px;
+    background: #0F6B6B;
+    border: 0;
+    margin: 22px 0 0;
+  }
+
+  /* ---------- header ---------- */
+
+  .site-head { padding: 20px 0; }
+  .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: #1A2A3A; }
+
+  /* The logo file carries wide white padding and a white background, so it is cropped to
+     its real content box and blended with multiply. Measured box: x 250..774, y 290..588. */
+  .logo-mark { position: relative; width: 70px; height: 40px; overflow: hidden; flex: 0 0 auto; }
+  .logo-mark img { position: absolute; width: 137px; height: 137px; left: -34px; top: -39px; max-width: none; mix-blend-mode: multiply; }
+
+  .wordmark { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.01em; }
+
+  /* ---------- hero ---------- */
+
+  .hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; }
+  .hero-text { padding: 24px 0 40px; }
+  .hero h1 { font-size: clamp(2.3rem, 6.4vw, 4.1rem); }
+  .hero h1 .accent { color: #0F6B6B; }
+  .hero .lede { max-width: 62ch; }
+  /* flex-basis 0, not auto: with auto the media grows to the photo's own 1440px height,
+     which shows the logo band baked into the bottom of the file. */
+  .hero-media { flex: 1 1 0; min-height: 60vh; overflow: hidden; }
+  .hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; }
+
+  /* ---------- buttons ---------- */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-primary { background: #0F6B6B; color: #F7F3EC; }
+  .btn-primary:hover { background: #0C5757; }
+  .btn-quiet { border: 1px solid #5A6B7A; color: #1A2A3A; background: transparent; }
+  .btn-quiet:hover { border-color: #0F6B6B; color: #0F6B6B; }
+  .btn:focus-visible { outline: 3px solid #0F6B6B; outline-offset: 3px; }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+
+  /* ---------- problem ---------- */
+
+  .problem { border-left: 2px solid #0F6B6B; padding-left: 26px; }
+  .problem p {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    line-height: 1.32;
+    letter-spacing: -0.01em;
+    max-width: 26ch;
+    margin: 0 0 18px;
+  }
+  .problem p:last-child { margin-bottom: 0; }
+
+  /* ---------- full width picture band ---------- */
+
+  .band img { width: 100%; height: min(62vh, 640px); object-fit: cover; display: block; }
+  .band .caption { font-size: 0.85rem; color: #5A6B7A; padding: 12px 0 0; }
+
+  /* ---------- cards ---------- */
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 46px; }
+  .card {
+    background: #FFFCF6;
+    border: 1px solid #E2DACD;
+    border-radius: 14px;
+    padding: 32px 28px 30px;
+  }
+  .card h3 { font-size: 1.28rem; margin: 18px 0 10px; }
+  .card p { font-size: 1rem; color: #1A2A3A; margin: 0; }
+
+  .price { margin-top: 30px; padding-top: 26px; border-top: 1px solid #E2DACD; }
+  .board-holds { margin: 34px 0 0; font-size: 1.06rem; max-width: 66ch; }
+  .price strong { font-family: 'Fraunces', Georgia, serif; font-weight: 700; font-size: 1.5rem; }
+  .price span { display: block; color: #5A6B7A; font-size: 1rem; margin-top: 6px; }
+
+  /* ---------- steps ---------- */
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 46px; counter-reset: step; }
+  .step { padding-top: 22px; border-top: 2px solid #0F6B6B; }
+  .step .num { font-family: 'Fraunces', Georgia, serif; font-size: 0.95rem; color: #5A6B7A; letter-spacing: 0.08em; }
+  .step p { margin: 10px 0 0; font-size: 1.06rem; }
+
+  /* ---------- about ---------- */
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr 0.9fr; gap: 40px; align-items: start; }
+  .about-lede { grid-column: 1 / 3; }
+  .about-photo img { width: 100%; height: auto; border-radius: 14px; }
+  .who { display: flex; align-items: center; gap: 14px; margin-top: 26px; }
+  .avatar { width: 58px; height: 58px; border-radius: 50%; overflow: hidden; flex: 0 0 auto; border: 1px solid #E2DACD; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; transform: scale(1.22); transform-origin: 50% 22%; }
+  .who-name { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 1.15rem; line-height: 1.2; }
+  .who-role { font-size: 0.9rem; color: #5A6B7A; }
+
+  /* ---------- contact ---------- */
+
+  .contact-card { background: #FFFCF6; border: 1px solid #E2DACD; border-radius: 16px; padding: 40px 36px; }
+  .contact-links { display: flex; flex-direction: column; gap: 14px; max-width: 420px; margin-top: 26px; }
+  .contact-links .btn { width: 100%; }
+  .contact-note { font-size: 0.92rem; color: #5A6B7A; margin-top: 22px; }
+
+  /* ---------- footer ---------- */
+
+  .site-foot { background: #1A2A3A; color: #F7F3EC; padding: 40px 0; margin-top: 0; }
+  .foot-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; }
+  /* logo-dark.jpg carries a dark background that matches this band, so no white box shows.
+     Cropped to the monogram only, because the wordmark is written beside it in text. */
+  .logo-dark-crop { position: relative; width: 53px; height: 30px; overflow: hidden; flex: 0 0 auto; }
+  .logo-dark-crop img { position: absolute; width: 103px; height: 103px; left: -25px; top: -29px; max-width: none; }
+  .foot-note { font-size: 0.9rem; color: #C9D2DC; }
+
+  /* ---------- phone ---------- */
+
+  @media (max-width: 900px) {
+    .cards, .steps { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 28px; }
+    .about-lede { grid-column: auto; }
+    .about-photo img { max-width: 420px; }
+  }
+
+  @media (max-width: 700px) {
+    .section { padding: 56px 0; }
+    .hero-text { padding: 16px 0 28px; }
+    .hero-media { min-height: 52vh; }
+    /* On a phone the image is taller than it is wide, so cover crops the sides and shows the
+       full height, which brings back the logo strip baked into the bottom of the file. Making
+       the image taller than its box and clipping it keeps the faces and drops the strip. */
+    .hero-media img { height: 125%; }
+    .band img { height: 52vh; }
+    .problem { padding-left: 20px; }
+    .problem p { max-width: none; }
+    .contact-card { padding: 30px 22px; }
+    .btn-row .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="logo-mark">
+        <img src="images/Logo.jpg" width="1024" height="1024" alt="AutoFollow logo">
+      </span>
+      <span class="wordmark">AutoFollow</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. Top of the page -->
+  <section class="hero">
+    <div class="wrap hero-text">
+      <h1>Every enquiry and renewal on <span class="accent">one board</span>.</h1>
+      <p class="lede">A small follow-up and renewal tracker for water conditioner and softener dealers and service teams in Bengaluru, where the follow-ups run on their own.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="https://cal.com/auto-follow/20-minute-intro-call">Book a 20 minute call</a>
+      </div>
+    </div>
+    <div class="hero-media">
+      <img src="images/speaking.jpg" width="1024" height="1024" alt="Two AutoFollow staff at a dealer counter in Bengaluru, one standing and one seated, working on a laptop in front of a water softener unit and rows of water filter cartridges.">
+    </div>
+  </section>
+
+  <!-- 2. The problem, in the dealer's own words -->
+  <section class="section">
+    <div class="wrap">
+      <p class="label">The problem</p>
+      <h2 class="h2">This is how the work goes missing.</h2>
+      <hr class="rule">
+      <div class="problem" style="margin-top: 40px;">
+        <p>Your enquiries, your site visits and your yearly service renewals all sit in one person's WhatsApp.</p>
+        <p>Quotes go cold within a week.</p>
+        <p>Renewals lapse without anyone noticing.</p>
+        <p>Installs that were nearly closed are quietly lost.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full width picture band: Shot-6 carries its own headline, so it runs between sections of words -->
+  <section class="band">
+    <img src="images/Shot-6.jpg" width="1024" height="1024" alt="A water dealer at his counter beneath the words Follow-ups on track, with a whiteboard listing enquiries, site visits and renewals, and the tracker open on a laptop beside him." style="object-position: 50% 0%;">
+  </section>
+
+  <!-- 3. What AutoFollow does about it -->
+  <section class="section">
+    <div class="wrap">
+      <p class="label">The services</p>
+      <h2 class="h2">What AutoFollow does about it.</h2>
+      <hr class="rule">
+
+      <div class="cards">
+        <article class="card">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#0F6B6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="5" y="4.5" width="14" height="16.5" rx="2.5"></rect>
+            <path d="M9 4.5V3.6A1.6 1.6 0 0 1 10.6 2h2.8A1.6 1.6 0 0 1 15 3.6v.9"></path>
+            <path d="m9.2 13.2 2.1 2.1 3.7-3.9"></path>
+          </svg>
+          <h3>Site visit to follow-up record</h3>
+          <p>Every site visit becomes a follow-up record with its own reminder.</p>
+        </article>
+
+        <article class="card">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#0F6B6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3.5" y="4.5" width="5" height="15" rx="1.5"></rect>
+            <rect x="9.5" y="4.5" width="5" height="10.5" rx="1.5"></rect>
+            <rect x="15.5" y="4.5" width="5" height="13" rx="1.5"></rect>
+          </svg>
+          <h3>Dealer follow-up and renewal board</h3>
+          <p>Every enquiry and every yearly renewal sits on one board, so nothing waits on one person's memory.</p>
+        </article>
+
+        <article class="card">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#0F6B6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="5" y="3" width="14" height="18" rx="2.5"></rect>
+            <path d="M8.5 8.2h7M8.5 12h7M8.5 15.8h4.2"></path>
+          </svg>
+          <h3>Weekly Bengaluru water brief</h3>
+          <p>A short weekly brief on water conditions in Bengaluru, so the dealer always has something useful to send.</p>
+        </article>
+      </div>
+
+      <p class="board-holds">AutoFollow keeps your leads, your AMC renewals, your service status and your payment follow-ups on one board, and they run on their own. Your customers can sign in and see their own details.</p>
+
+      <div class="price">
+        <strong>Rs 25,000 a month</strong>
+        <span>It covers everything the three services do.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. How it works -->
+  <section class="section">
+    <div class="wrap">
+      <p class="label">How it works</p>
+      <h2 class="h2">Three steps, and none of them are yours.</h2>
+      <hr class="rule">
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">Step one</div>
+          <p>I set up the tracker around your enquiries and renewals.</p>
+        </div>
+        <div class="step">
+          <div class="num">Step two</div>
+          <p>The follow-ups run on their own and nudges go out on time.</p>
+        </div>
+        <div class="step">
+          <div class="num">Step three</div>
+          <p>I keep the tracker updated every month so nothing goes quiet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full width picture band: Shot-4 shows the tracker itself -->
+  <section class="band">
+    <img src="images/Shot-4.jpg" width="1024" height="1024" alt="A dealer looking at the AutoFollow tracker on a laptop, with cards reading new enquiry, follow up due and quote sent, in a water treatment shop with softener units behind him." style="object-position: 50% 88%;">
+  </section>
+
+  <!-- 5. Who they are -->
+  <section class="section">
+    <div class="wrap about-grid">
+      <div class="about-lede">
+        <p class="label">About</p>
+        <h2 class="h2">Why I started AutoFollow.</h2>
+        <hr class="rule">
+
+        <div class="who">
+          <span class="avatar">
+            <img src="images/profile.jpg" width="1024" height="1024" alt="Krishna, who runs AutoFollow, photographed in a navy suit.">
+          </span>
+          <span>
+            <span class="who-name">Krishna</span>
+            <span class="who-role">AutoFollow</span>
+          </span>
+        </div>
+
+        <div style="margin-top: 26px;">
+          <p>I am Krishna, and I built AutoFollow for one reason.</p>
+          <p>I started it to follow up the leads, book the customer in for service, and follow up the payment.</p>
+          <p>AutoFollow is a small tracker. Every enquiry and every yearly renewal sits on one board, the follow-ups run on their own, and I keep the tracker updated every month. It is built for water conditioner and softener dealers and service teams in Bengaluru, serving homes and apartment communities.</p>
+        </div>
+      </div>
+
+      <div class="about-photo">
+        <img src="images/working.jpg" width="1376" height="768" alt="A laptop on a shop counter showing the AutoFollow dashboard, with water filter cartridges on the shelves and water softener units beside the counter." loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Contact, last -->
+  <section class="section">
+    <div class="wrap">
+      <div class="contact-card">
+        <p class="label">Start</p>
+        <h2 class="h2">Book a 20 minute call.</h2>
+        <p class="lede">Pick a time that suits you, or reach me on WhatsApp or email. Whoever answers, it is me.</p>
+
+        <div class="contact-links">
+          <a class="btn btn-primary" href="https://cal.com/auto-follow/20-minute-intro-call">Book a 20 minute call</a>
+          <a class="btn btn-quiet" href="https://wa.me/919606632288?text=Hello%2C%20I%20found%20AutoFollow%20and%20I%20would%20like%20to%20know%20more.">Message me on WhatsApp</a>
+          <a class="btn btn-quiet" href="mailto:go4openmind@gmail.com?subject=AutoFollow%20enquiry">Email me</a>
+        </div>
+
+        <p class="contact-note">These open the app on your own phone. There is nothing to fill in on this page.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span style="display: flex; align-items: center; gap: 12px;">
+      <span class="logo-dark-crop">
+        <img src="images/logo-dark.jpg" width="1024" height="1024" alt="AutoFollow logo on a dark background." loading="lazy">
+      </span>
+      <span class="wordmark">AutoFollow</span>
+    </span>
+    <span class="foot-note"><a href="https://cal.com/auto-follow/20-minute-intro-call" style="color: #F7F3EC;">Book a 20 minute call</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

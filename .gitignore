@@ -1,0 +1,29 @@
+# Keys and secrets. These must never be committed.
+key.txt
+composio-key.txt
+.env
+.env.*
+*.pem
+*.key
+
+# Dependencies and build output
+node_modules/
+.next/
+out/
+
+# The dealer board is a separate project, not part of this site
+dealer-board/
+
+# Local working notes and the digest tooling stay on the machine
+AGENTS.md
+WORKLOG.md
+REPORT.md
+kilo.jsonc
+faq.txt
+digest.js
+digest.html
+digest-task.xml
+com.fwai.waterdigest.plist
+dealer-followup-self-audit.md
+dealer-followup-self-audit.html
+dealer-followup-self-audit.pdf
