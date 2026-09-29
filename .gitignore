@@ -14,6 +14,16 @@ out/
 # The dealer board is a separate project, not part of this site
 dealer-board/
 
+# Superseded shots, kept on the machine only
+images/Old/
+
+# Planning documents stay local. The repository holds the site, not the brief.
+PRD.md
+TECH-STACK.md
+IMPLEMENTATION-PLAN.md
+FOLLOW-UP-TEMPLATES.md
+README.md
+
 # Local working notes and the digest tooling stay on the machine
 AGENTS.md
 WORKLOG.md
